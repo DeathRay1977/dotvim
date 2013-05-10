@@ -1,6 +1,3 @@
-call pathogen#infect() 
-:colors desert
-:set hlsearch
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 colors desert
