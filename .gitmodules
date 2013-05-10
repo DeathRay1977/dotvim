@@ -16,3 +16,6 @@
 [submodule "bundle/abolish"]
 	path = bundle/abolish
 	url = https://github.com/tpope/vim-abolish.git
+[submodule "bundle/autoformat"]
+	path = bundle/autoformat
+	url = https://github.com/Chiel92/vim-autoformat.git
