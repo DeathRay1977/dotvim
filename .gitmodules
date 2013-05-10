@@ -19,3 +19,6 @@
 [submodule "bundle/autoformat"]
 	path = bundle/autoformat
 	url = https://github.com/Chiel92/vim-autoformat.git
+[submodule "bundle/taglist"]
+	path = bundle/taglist
+	url = https://github.com/vim-scripts/taglist.vim.git
