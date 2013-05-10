@@ -1,6 +1,12 @@
 call pathogen#infect() 
 :colors desert
 :set hlsearch
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+colors desert
+set hlsearch
+set laststatus=2
+set hidden
 if has("gui_running")
   " GUI is running or is about to start.
   " Maximize gvim window.
@@ -13,4 +19,7 @@ else
   if exists("+columns")
     set columns=80
   endif
+endif
+if has("autocmd")
+    filetype plugin indent on
 endif
