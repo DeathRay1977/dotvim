@@ -1,6 +1,6 @@
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
-" set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+set rtp+=~/powerline/powerline/bindings/vim
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
 	finish
@@ -23,7 +23,7 @@ set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
 set hidden
-
+set laststatus=2
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
 let g:formatprg_cpp = "astyle"
