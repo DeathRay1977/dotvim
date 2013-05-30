@@ -34,6 +34,11 @@ let mapleader=","
 noremap <leader>b :FufBuffer<CR>
 noremap <leader>f :FufFile<CR>
 
+" Disable Arrow Keys"
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop> 
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
@@ -46,6 +51,7 @@ if has('mouse')
 	set mouse=a
 endif
 
+" colours
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
