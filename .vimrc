@@ -9,7 +9,9 @@ endif
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
-
+set tabstop=4
+set shiftwidth=4
+set expandtab
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -31,6 +33,7 @@ let g:formatprg_args_expr_cpp = '"--unpad-paren --style=whitesmith --pad-paren-i
 let mapleader=","
 noremap <leader>b :FufBuffer<CR>
 noremap <leader>f :FufFile<CR>
+
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
@@ -48,9 +51,9 @@ endif
 if &t_Co > 2 || has("gui_running")
 	syntax on
 	set hlsearch
-	colors desert
 endif
-
+colorscheme lucius
+LuciusBlack 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
@@ -94,3 +97,4 @@ if !exists(":DiffOrig")
 	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
 				\ | wincmd p | diffthis
 endif
+highlight Pmenu guibg=brown gui=bold
