@@ -8,6 +8,7 @@ set nocompatible
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
+set encoding=utf8
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 set number
 set backspace=indent,eol,start
@@ -29,9 +30,6 @@ set textwidth=78
 if has('mouse')
 	set mouse=a
 endif
-
-" Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
 
 let g:formatprg_cpp = "astyle"
 let g:formatprg_args_expr_cpp = '"--unpad-paren --style=whitesmith --pad-paren-in --indent-brackets"'
