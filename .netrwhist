@@ -1,6 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_cnt =5
 let g:netrw_dirhist_1='/home/norm/.vim/bundle/powerline'
 let g:netrw_dirhist_2='/home/norm/projects/new'
 let g:netrw_dirhist_3='/home/norm/projects/tasks'
 let g:netrw_dirhist_4='/home/norm/projects/simple_cms'
+let g:netrw_dirhist_5='/Users/Norm/.rvm/gems/ruby-2.0.0-p247/gems/forgery-0.5.0/lib/forgery/formats'

@@ -10,6 +10,7 @@ call pathogen#helptags()
 
 set encoding=utf8
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+set guifont=Menlo\ Regular\ for\ Powerline
 set number
 set backspace=indent,eol,start
 set backup     " keep a backup file
