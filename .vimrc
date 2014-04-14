@@ -27,9 +27,18 @@ set sw=2
 set expandtab 
 set textwidth=78
 
+
+function! g:fixfont()
+  let os = substitute(system('uname'), "\n", "", "")
+  if os == "Linux"
+    " Do Linux-specific stuff.
+  set guifont=Courier\ 10\ Pitch\ 10
+  set lines=44 columns=80
+  endif
+endfunction
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
-	set mouse=a
+  set mouse=a
 endif
 
 let g:formatprg_cpp = "astyle"
@@ -61,43 +70,45 @@ nnoremap <C-s> :w<cr>
 " Ctrl+q to quit, hold shift to discard changes
 nnoremap <C-q> :q<cr>
 nnoremap <C-S-q> :q!<cr>
+nnoremap <C-n> :NERDTreeToggle<cr>
 
 imap <C-S-q> <ESC>:q!<cr>
 imap <C-q> <ESC>:q<cr>
 imap <C-s> <ESC>:w<cr>a
-
+imap <C-n> <ESC> :NERDTreeToggle<cr>
 " colours
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
-	syntax on
-	set hlsearch
-	colorscheme desert
+  syntax on
+  set hlsearch
+  colorscheme desert
+  call g:fixfont()
 endif
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
-	" Enable file type detection.
-	" Use the default filetype settings, so that mail gets 'tw' set to 72,
-	" 'cindent' is on in C files, etc.
-	" Also load indent files, to automatically do language-dependent indenting.
-	filetype plugin indent on
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
+  filetype plugin indent on
 
 
-	autocmd! bufwritepost .vimrc source $MYVIMRC
+  autocmd! bufwritepost .vimrc source $MYVIMRC
 
-	" When editing a file, always jump to the last known cursor position.
-	" Don't do it when the position is invalid or when inside an event handler
-	" (happens when dropping a file on gvim).
-	" Also don't do it when the mark is in the first line, that is the default
-	" position when opening a file.
-	autocmd BufReadPost *
-				\ if line("'\"") > 1 && line("'\"") <= line("$") |
-				\   exe "normal! g`\"" |
-				\ endif
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid or when inside an event handler
+  " (happens when dropping a file on gvim).
+  " Also don't do it when the mark is in the first line, that is the default
+  " position when opening a file.
+  autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
 else
 
-	set autoindent      " always set autoindenting on
+  set autoindent      " always set autoindenting on
 
 endif " has("autocmd")
 
@@ -105,9 +116,8 @@ endif " has("autocmd")
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 if !exists(":DiffOrig")
-	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-				\ | wincmd p | diffthis
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+        \ | wincmd p | diffthis
 endif
 highlight Pmenu guibg=brown gui=bold
-
 
