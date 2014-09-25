@@ -28,14 +28,12 @@ set expandtab
 set textwidth=78
 
 
-function! g:fixfont()
-  let os = substitute(system('uname'), "\n", "", "")
-  if os == "Linux"
-    " Do Linux-specific stuff.
+function! g:Fixfont()
   set guifont=Courier\ 10\ Pitch\ 10
   set lines=44 columns=80
   endif
 endfunction
+
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=a
@@ -46,7 +44,7 @@ let g:formatprg_args_expr_cpp = '"--unpad-paren --style=whitesmith --pad-paren-i
 "
 " Set <leader> to comma
 
-let mapleader=","
+let mapleader="\\"
 
 " Mappings
 
@@ -54,12 +52,16 @@ let mapleader=","
 
 noremap <leader>b :FufBuffer<CR>
 noremap <leader>f :FufFile<CR>
+noremap <leader>n :NERDTreeToggle<CR>
 
 " Disable Arrow Keys"
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop> 
+
+nnoremap <silent> <Plug>TransposeCharacters xp :call repeat#set("\<Plug>TransposeCharacters")<CR>
+nmap cp <Plug>TransposeCharacters
 
 " Shortcut to rapidly toggle `set list`
 nnoremap <leader>l :set list!<CR>
@@ -70,12 +72,11 @@ nnoremap <C-s> :w<cr>
 " Ctrl+q to quit, hold shift to discard changes
 nnoremap <C-q> :q<cr>
 nnoremap <C-S-q> :q!<cr>
-nnoremap <C-n> :NERDTreeToggle<cr>
 
 imap <C-S-q> <ESC>:q!<cr>
 imap <C-q> <ESC>:q<cr>
 imap <C-s> <ESC>:w<cr>a
-imap <C-n> <ESC> :NERDTreeToggle<cr>
+imap <C-S-s> <ESC>:bufdo update!<cr>a
 " colours
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -83,7 +84,10 @@ if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
   colorscheme desert
-  call g:fixfont()
+  let os = substitute(system('uname'), "\n", "", "")
+  if os == "Linux"
+      call g:Fixfont()
+  endif
 endif
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -93,7 +97,7 @@ if has("autocmd")
   " 'cindent' is on in C files, etc.
   " Also load indent files, to automatically do language-dependent indenting.
   filetype plugin indent on
-
+  runtime macros/matchit.vim
 
   autocmd! bufwritepost .vimrc source $MYVIMRC
 
@@ -112,12 +116,5 @@ else
 
 endif " has("autocmd")
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-        \ | wincmd p | diffthis
-endif
 highlight Pmenu guibg=brown gui=bold
 
