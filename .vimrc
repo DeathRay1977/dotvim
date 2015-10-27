@@ -23,14 +23,20 @@ set ts=2
 set sts=2
 set sw=2
 set expandtab
-
+set nowrap
+set autoread
+set lazyredraw
+set cc=80
+nnoremap <C-s> :w<CR>
+inoremap <c-s> <esc>:w<CR>
+vmap <C-s> <esc>:w<CR>gv
 
 function! g:Fixfont()
   set guifont=Courier\ 10\ Pitch\ 10
   set lines=44 columns=80
 endif
 endfunction
-
+let g:airline_powerline_fonts = 1
 function! <SID>StripTrailingWhitespaces()
   " Preparation: save last search, and cursor position.
   let _s=@/
@@ -83,9 +89,19 @@ map <Leader>a :call RunAllSpecs()<CR>
 let g:rspec_command = "!rspec --drb {spec}"
 let g:rspec_runner = "os_x_iterm2"
 
+" Fuzzy finder mappings
+map <leader>b :FufBuffer<cr>
+map <leader>f :FufFile<cr>
+map <leader>t :FufTag<cr>
+map <leader>B :FufBufferTag<cr>
+map <leader>d :FufDir<cr>
+map <leader>j :FufJumpList<cr>
+map <leader>c :FufChangeList<cr>
+map <leader>q :FufQuickfix<cr>
+map <leader>L :FufLine<cr>
 " Normal Mode mappings
 noremap <leader>> :bn<CR>
-nnoremap <silent> <F5> :call <SID>StripTrailingWhitespaces()<CR>
+nnoremap <silent> <leader>ts :call <SID>StripTrailingWhitespaces()<CR>
 " Disable Arrow Keys"
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -265,13 +281,13 @@ if has("autocmd")
   filetype plugin indent on
   runtime macros/matchit.vim
   autocmd BufWritePre *.rb,*.erb,*.js :call <SID>StripTrailingWhitespaces()
-  autocmd FileType ruby nmap <buffer> <D-M> <Plug>(xmpfilter-mark)
-  autocmd FileType ruby xmap <buffer> <D-M> <Plug>(xmpfilter-mark)
-  autocmd FileType ruby imap <buffer> <D-M> <Plug>(xmpfilter-mark)
+  autocmd FileType ruby nmap <buffer> <F5> <Plug>(xmpfilter-mark)
+  autocmd FileType ruby xmap <buffer> <F5> <Plug>(xmpfilter-mark)
+  autocmd FileType ruby imap <buffer> <F5> <Plug>(xmpfilter-mark)
 
-  autocmd FileType ruby nmap <buffer> <D-R> <Plug>(xmpfilter-run)
-  autocmd FileType ruby xmap <buffer> <D-R> <Plug>(xmpfilter-run)
-  autocmd FileType ruby imap <buffer> <D-R> <Plug>(xmpfilter-run)
+  autocmd FileType ruby nmap <buffer> <F6> <Plug>(xmpfilter-run)
+  autocmd FileType ruby xmap <buffer> <F6> <Plug>(xmpfilter-run)
+  autocmd FileType ruby imap <buffer> <F6> <Plug>(xmpfilter-run)
   autocmd! bufwritepost .vimrc source $MYVIMRC
 
   autocmd VimResized * :wincmd =
