@@ -1,9 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/Users/Norm/RubymineProjects/myNeoSix/spec/controllers'
-let g:netrw_dirhist_2='/Users/Norm/RubymineProjects/myNeoSix/app/views/user_relationship'
-let g:netrw_dirhist_3='/Users/Norm/RubymineProjects/myNeoSix'
-let g:netrw_dirhist_4='/Users/Norm/clojure-koans/src/koans'
-let g:netrw_dirhist_5='/Users/Norm/ruby/gilded_rose_kata'
-let g:netrw_dirhist_6='/Users/Norm/ruby/gilded_rose_kata/lib'
-let g:netrw_dirhist_7='/Users/Norm/.oh-my-zsh'
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/Users/Norm/makers_projects/chitter-challenge'

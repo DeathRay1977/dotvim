@@ -59,3 +59,27 @@
 [submodule "bundle/ultisnips"]
 	path = bundle/ultisnips
 	url = git@github.com:SirVer/ultisnips.git
+[submodule "bundle/vim-ruby-xmpfilter"]
+	path = bundle/vim-ruby-xmpfilter
+	url = git@github.com:t9md/vim-ruby-xmpfilter.git
+[submodule "bundle/vim-snippets"]
+	path = bundle/vim-snippets
+	url = git@github.com:honza/vim-snippets.git
+[submodule "bundle/colorschemes"]
+	path = bundle/colorschemes
+	url = https://github.com/flazz/vim-colorschemes.git
+[submodule "/Users/Norm/.vim/bundle/YouCompleteMe"]
+	path = /Users/Norm/.vim/bundle/YouCompleteMe
+	url = git@github.com:Valloric/YouCompleteMe.git
+[submodule "bundle/vim-gitgutter"]
+	path = bundle/vim-gitgutter
+	url = git@github.com:airblade/vim-gitgutter.git
+[submodule "vim-exchange"]
+	path = vim-exchange
+	url = git@github.com:tommcdo/vim-exchange.git
+[submodule "bundle/vim-exchange"]
+	path = bundle/vim-exchange
+	url = git@github.com:tommcdo/vim-exchange.git
+[submodule "bundle/auto-ctags"]
+	path = bundle/auto-ctags
+	url = git@github.com:soramugi/auto-ctags.vim.git

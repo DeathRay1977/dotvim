@@ -2,31 +2,109 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-"
-" Initialise pathogen and load all plugins
-"
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-
+call plug#begin('~/.vim/plugged')
+Plug 'Chiel92/vim-autoformat'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'DataWraith/auto_mkdir'
+Plug 'elixir-lang/vim-elixir'
+Plug 'gioele/vim-autoswap'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'jpalardy/vim-slime'
+Plug 'luochen1990/rainbow'
+Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
+Plug 'morhetz/gruvbox'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'pangloss/vim-javascript'
+Plug 'rizzatti/dash.vim'
+Plug 'rking/ag.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+Plug 't9md/vim-ruby-xmpfilter'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'thoughtbot/vim-rspec'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-cucumber'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'valloric/YouCompleteMe'
+Plug 'vim-ruby/vim-ruby'
+Plug 'vim-scripts/fuzzyfinder'
+Plug 'vim-scripts/l9'
+Plug 'vim-scripts/taglist.vim'
+Plug 'wikitopian/hardmode'
+call plug#end()
 set encoding=utf8
 set rnu
+set nu
 set backspace=indent,eol,start
+set background=dark
 set backup     " keep a backup file
 set history=50 " keep 50 lines of command line history
 set ruler      " show the cursor position all the time
 set showcmd    " display incomplete commands
 set incsearch  " do incremental searching
+set hlsearch
 set hidden
 set laststatus=2
-set expandtab
 set ts=2
 set sts=2
 set sw=2
 set expandtab
 set nowrap
 set autoread
-set lazyredraw
+au CursorHold * checktime
 set cc=80
+set gfn=Menlo\ Regular\ for\ Powerline:h13
+set timeoutlen=1000 ttimeoutlen=0
+
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_enable_signs = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_ruby_checkers = ['rubocop']
+" Vim-ruby settings
+:let g:ruby_indent_access_modifier_style = 'normal'
+:let ruby_fold = 1
+:let ruby_operators = 1
+:let ruby_space_errors = 1
+:let ruby_spellcheck_strings = 1
+
+" Nerdtree
+
+" Save whenever switching windows or leaving vim. This is useful when running
+" the tests inside vim without having to save all files first.
+au FocusLost,WinLeave * :silent! wa
+
+" Trigger autoread when changing buffers or coming back to vim.
+au FocusGained,BufEnter * :silent! !
+
+" Auto Ctags
+let g:auto_ctags = 1
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir="~/.vim/bundle/vim-snippets/UltiSnips"
 nnoremap <C-s> :w<CR>
 inoremap <c-s> <esc>:w<CR>
 vmap <C-s> <esc>:w<CR>gv
@@ -51,36 +129,41 @@ endfunction
 let g:slime_target = "tmux"
 let g:ruby_debugger_progname = 'mvim'
 let g:formatprg_cpp = "astyle"
+let g:autoformat_verbosemode = 1
 let g:formatprg_args_expr_cpp = '"--unpad-paren --style=whitesmith --pad-paren-in --indent-brackets"'
 let g:rainbow_conf = {
-    \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-    \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-    \   'operators': '_,_',
-    \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-    \   'separately': {
-    \       '*': {},
-    \       'rb' : {},
-    \       'tex': {
-    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
-    \       },
-    \       'lisp': {
-    \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
-    \       },
-    \       'vim': {
-    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
-    \       },
-    \       'html': {
-    \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
-    \       },
-    \       'css': 0,
-    \   }
-    \}
+      \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+      \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+      \   'operators': '_,_',
+      \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      \   'separately': {
+      \       '*': {},
+      \       'rb' : {},
+      \       'tex': {
+      \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+      \       },
+      \       'lisp': {
+      \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+      \       },
+      \       'vim': {
+      \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+      \       },
+      \       'html': {
+      \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+      \       },
+      \       'css': 0,
+      \   }
+      \}
 let g:rainbow_active = 1
 " Set <leader> to comma
 
 let mapleader=","
 
 " Mappings
+noremap <leader>gp :Git push origin master<cr>
+noremap <leader>qa :wqa!<cr>
+
+nnoremap <Leader>nn :NERDTreeTabsToggle<CR>
 " Rspec  mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
@@ -88,11 +171,12 @@ map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 let g:rspec_command = "!rspec --drb {spec}"
 let g:rspec_runner = "os_x_iterm2"
-
+" Hard mode
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
 " Fuzzy finder mappings
 map <leader>b :FufBuffer<cr>
 map <leader>f :FufFile<cr>
-map <leader>t :FufTag<cr>
+map <leader>T :FufTag<cr>
 map <leader>B :FufBufferTag<cr>
 map <leader>d :FufDir<cr>
 map <leader>j :FufJumpList<cr>
@@ -102,6 +186,7 @@ map <leader>L :FufLine<cr>
 " Normal Mode mappings
 noremap <leader>> :bn<CR>
 nnoremap <silent> <leader>ts :call <SID>StripTrailingWhitespaces()<CR>
+noremap <F4> :set hlsearch! hlsearch?<CR>
 " Disable Arrow Keys"
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -117,7 +202,21 @@ nnoremap <leader>l :set list!<CR>
 nnoremap <leader>af :Autoformat<cr>
 " Since these all have native (Cmd-modified) versions in MacVim, don't bother
 " defining them there.
+function! Carousel()
+  for theme in split(globpath(&runtimepath, 'colors/*.vim'), '\n')
+    let t = fnamemodify(theme, ':t:r')
+    try
+      echo t
+      execute 'colorscheme '.t
+    catch
+    finally
+    endtry
+    sleep 4
+    redraw
+  endfor
+endfunction
 
+map <silent> <Leader>tc :call Carousel()<cr>
 " A utility function to help cover our bases when mapping.
 "
 " Example of use:
@@ -130,27 +229,27 @@ nnoremap <leader>af :Autoformat<cr>
 "   cnoremap <special> <Esc>n <C-c><Esc>n
 "   onoremap <special> <Esc>n <Esc><Esc>n
 function! NvicoMapMeta(key, cmd, add_gv)
-    " TODO: Make this detect whether key is something that has a Meta
-    " equivalent.
-    let l:keycode = "<M-" . a:key . ">"
+  " TODO: Make this detect whether key is something that has a Meta
+  " equivalent.
+  let l:keycode = "<M-" . a:key . ">"
 
-    let l:set_line = "set " . l:keycode . "=\<Esc>" . a:key
+  let l:set_line = "set " . l:keycode . "=\<Esc>" . a:key
 
-    let l:nmap_line = 'nmap <silent> <special> ' . l:keycode . ' ' . a:cmd
-    let l:vnoremap_line = 'vnoremap <silent> <special> ' . l:keycode . ' <Esc>' . l:keycode
-    if(a:add_gv)
-        let l:vnoremap_line.='gv'
-    endif
-    let l:inoremap_line = 'inoremap <silent> <special> ' . l:keycode . ' <C-o>' . l:keycode
-    let l:cnoremap_line = 'cnoremap <special> ' . l:keycode . ' <C-c>' . l:keycode
-    let l:onoremap_line = 'onoremap <silent> <special> ' . l:keycode . ' <Esc>' . l:keycode
+  let l:nmap_line = 'nmap <silent> <special> ' . l:keycode . ' ' . a:cmd
+  let l:vnoremap_line = 'vnoremap <silent> <special> ' . l:keycode . ' <Esc>' . l:keycode
+  if(a:add_gv)
+    let l:vnoremap_line.='gv'
+  endif
+  let l:inoremap_line = 'inoremap <silent> <special> ' . l:keycode . ' <C-o>' . l:keycode
+  let l:cnoremap_line = 'cnoremap <special> ' . l:keycode . ' <C-c>' . l:keycode
+  let l:onoremap_line = 'onoremap <silent> <special> ' . l:keycode . ' <Esc>' . l:keycode
 
-    exec l:set_line
-    exec l:nmap_line
-    exec l:vnoremap_line
-    exec l:inoremap_line
-    exec l:cnoremap_line
-    exec l:onoremap_line
+  exec l:set_line
+  exec l:nmap_line
+  exec l:vnoremap_line
+  exec l:inoremap_line
+  exec l:cnoremap_line
+  exec l:onoremap_line
 endfunction
 
 " I can't think of a good function to assign to Meta+n, since in MacVim Cmd+N
@@ -262,8 +361,8 @@ nnoremap <leader>= :wincmd =<cr>
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
+  colorscheme gruvbox
   syntax on
-  colorscheme desert
   let os = substitute(system('uname'), "\n", "", "")
   if os == "Linux"
     call g:Fixfont()
@@ -307,4 +406,3 @@ else
 endif " has("autocmd")
 
 highlight Pmenu guibg=brown gui=bold
-
