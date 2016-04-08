@@ -21,6 +21,7 @@ Plug 'morhetz/gruvbox'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'pangloss/vim-javascript'
 Plug 'rizzatti/dash.vim'
+Plug 'chooh/brightscript.vim'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
@@ -43,6 +44,8 @@ Plug 'vim-scripts/fuzzyfinder'
 Plug 'vim-scripts/l9'
 Plug 'vim-scripts/taglist.vim'
 Plug 'wikitopian/hardmode'
+Plug 'Chun-Yang/vim-action-ag'
+Plug 'godlygeek/tabular'
 call plug#end()
 set encoding=utf8
 set rnu
@@ -57,14 +60,14 @@ set incsearch  " do incremental searching
 set hlsearch
 set hidden
 set laststatus=2
-set ts=2
-set sts=2
-set sw=2
+set ts=4
+set sts=4
+set sw=4
 set expandtab
+set mouse=a
 set nowrap
 set autoread
 au CursorHold * checktime
-set cc=80
 set gfn=Menlo\ Regular\ for\ Powerline:h13
 set timeoutlen=1000 ttimeoutlen=0
 
@@ -379,6 +382,7 @@ if has("autocmd")
   au BufRead,BufNewFile *.rex set filetype=ruby
   filetype plugin indent on
   runtime macros/matchit.vim
+  autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
   autocmd BufWritePre *.rb,*.erb,*.js :call <SID>StripTrailingWhitespaces()
   autocmd FileType ruby nmap <buffer> <F5> <Plug>(xmpfilter-mark)
   autocmd FileType ruby xmap <buffer> <F5> <Plug>(xmpfilter-mark)
