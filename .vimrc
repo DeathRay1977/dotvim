@@ -67,6 +67,7 @@ set expandtab
 set mouse=a
 set nowrap
 set autoread
+set fileformat=unix
 au CursorHold * checktime
 set gfn=Menlo\ Regular\ for\ Powerline:h13
 set timeoutlen=1000 ttimeoutlen=0
@@ -165,6 +166,7 @@ let mapleader=","
 " Mappings
 noremap <leader>gp :Git push origin master<cr>
 noremap <leader>qa :wqa!<cr>
+noremap <leader>dp call DebugPrint()
 
 nnoremap <Leader>nn :NERDTreeTabsToggle<CR>
 " Rspec  mappings
@@ -383,7 +385,8 @@ if has("autocmd")
   filetype plugin indent on
   runtime macros/matchit.vim
   autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
-  autocmd BufWritePre *.rb,*.erb,*.js :call <SID>StripTrailingWhitespaces()
+  autocmd BufWritePre *.brs,*.bs,*.rb,*.erb,*.js :call <SID>StripTrailingWhitespaces()
+  autocmd BufWritePre *.brs,*.bs :retab
   autocmd FileType ruby nmap <buffer> <F5> <Plug>(xmpfilter-mark)
   autocmd FileType ruby xmap <buffer> <F5> <Plug>(xmpfilter-mark)
   autocmd FileType ruby imap <buffer> <F5> <Plug>(xmpfilter-mark)
@@ -391,8 +394,9 @@ if has("autocmd")
   autocmd FileType ruby nmap <buffer> <F6> <Plug>(xmpfilter-run)
   autocmd FileType ruby xmap <buffer> <F6> <Plug>(xmpfilter-run)
   autocmd FileType ruby imap <buffer> <F6> <Plug>(xmpfilter-run)
+  autocmd FileType brs setlocal commentstring='\ %s
   autocmd! bufwritepost .vimrc source $MYVIMRC
-
+  au BufRead,BufNewFile *.bs setfiletype brs
   autocmd VimResized * :wincmd =
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler
@@ -410,3 +414,7 @@ else
 endif " has("autocmd")
 
 highlight Pmenu guibg=brown gui=bold
+
+function! DebugPrint()
+    normal yt oprint "pa: ";p
+endfunction
