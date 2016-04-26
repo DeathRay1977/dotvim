@@ -6,7 +6,14 @@ Create symlinks:
 
     ln -s ~/.vim/.vimrc ~/.vimrc
     
-    Start up vim and do :PlugUpdate
+    Start up vim and do 
+        :PlugClean
+        :PlugUpdate
+        
+    To get YouCompleteMe working (IntelliJ style completion)
+    
+        $ cd ~/.vim/Plugged/YouCompleteMe
+        $ python install.py
     
 
 
