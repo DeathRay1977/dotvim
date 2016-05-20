@@ -4,48 +4,35 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 Plug 'Chiel92/vim-autoformat'
+Plug 'Chun-Yang/vim-action-ag'
+Plug 'DataWraith/auto_mkdir'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
+Plug 'chooh/brightscript.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'DataWraith/auto_mkdir'
-Plug 'elixir-lang/vim-elixir'
 Plug 'gioele/vim-autoswap'
-Plug 'jelera/vim-javascript-syntax'
+Plug 'godlygeek/tabular'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'jpalardy/vim-slime'
 Plug 'luochen1990/rainbow'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'morhetz/gruvbox'
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'pangloss/vim-javascript'
-Plug 'rizzatti/dash.vim'
-Plug 'chooh/brightscript.vim'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
-Plug 't9md/vim-ruby-xmpfilter'
+Plug 'sjl/gundo.vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'thoughtbot/vim-rspec'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-cucumber'
-Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rails'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'valloric/YouCompleteMe'
-Plug 'vim-ruby/vim-ruby'
 Plug 'vim-scripts/fuzzyfinder'
 Plug 'vim-scripts/l9'
-Plug 'vim-scripts/taglist.vim'
-Plug 'wikitopian/hardmode'
-Plug 'Chun-Yang/vim-action-ag'
-Plug 'godlygeek/tabular'
 call plug#end()
 set encoding=utf8
 set rnu
@@ -69,7 +56,8 @@ set nowrap
 set autoread
 set fileformat=unix
 au CursorHold * checktime
-set gfn=Menlo\ Regular\ for\ Powerline:h13
+" set gfn=Menlo\ Regular\ for\ Powerline:h13
+set guifont=Meslo\ LG\ L\ DZ\ for\ Powerline:h13
 set timeoutlen=1000 ttimeoutlen=0
 
 
@@ -119,7 +107,7 @@ function! g:Fixfont()
 endif
 endfunction
 let g:airline_powerline_fonts = 1
-function! <SID>StripTrailingWhitespaces()
+function! StripTrailingWhitespaces()
   " Preparation: save last search, and cursor position.
   let _s=@/
   let l = line(".")
@@ -137,7 +125,7 @@ let g:autoformat_verbosemode = 1
 let g:formatprg_args_expr_cpp = '"--unpad-paren --style=whitesmith --pad-paren-in --indent-brackets"'
 let g:rainbow_conf = {
       \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-      \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+      \   'ctermfgs': [ 'lightblue', 'lightyellow', 'lightcyan', 'lightmagenta', 'lightred'],
       \   'operators': '_,_',
       \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
       \   'separately': {
@@ -148,6 +136,9 @@ let g:rainbow_conf = {
       \       },
       \       'lisp': {
       \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+      \       },
+      \       'brs': {
+      \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
       \       },
       \       'vim': {
       \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
@@ -166,8 +157,8 @@ let mapleader=","
 " Mappings
 noremap <leader>gp :Git push origin master<cr>
 noremap <leader>qa :wqa!<cr>
-noremap <leader>dp call DebugPrint()
-
+noremap <leader>dp :call DebugPrint()<CR>
+noremap <leader>nh :noh<CR>
 nnoremap <Leader>nn :NERDTreeTabsToggle<CR>
 " Rspec  mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -190,8 +181,9 @@ map <leader>q :FufQuickfix<cr>
 map <leader>L :FufLine<cr>
 " Normal Mode mappings
 noremap <leader>> :bn<CR>
-nnoremap <silent> <leader>ts :call <SID>StripTrailingWhitespaces()<CR>
+nnoremap <silent> <leader>ts :call StripTrailingWhitespaces()<CR>
 noremap <F4> :set hlsearch! hlsearch?<CR>
+nnoremap <F5> :GundoToggle<CR>
 " Disable Arrow Keys"
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -385,7 +377,7 @@ if has("autocmd")
   filetype plugin indent on
   runtime macros/matchit.vim
   autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
-  autocmd BufWritePre *.brs,*.bs,*.rb,*.erb,*.js :call <SID>StripTrailingWhitespaces()
+  autocmd BufWritePre *.brs,*.bs,*.rb,*.erb,*.js :call StripTrailingWhitespaces()
   autocmd BufWritePre *.brs,*.bs :retab
   autocmd FileType ruby nmap <buffer> <F5> <Plug>(xmpfilter-mark)
   autocmd FileType ruby xmap <buffer> <F5> <Plug>(xmpfilter-mark)
